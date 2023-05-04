@@ -1,0 +1,106 @@
+﻿* Encoding: UTF-8.
+
+DATASET ACTIVATE DataSet1.
+GRAPH
+  /SCATTERPLOT(BIVAR)=day_passed WITH QoL1
+  /MISSING=LISTWISE.
+
+GRAPH
+  /SCATTERPLOT(BIVAR)=day_passed WITH phy
+  /MISSING=LISTWISE.
+GRAPH
+  /SCATTERPLOT(BIVAR)=day_passed WITH psy
+  /MISSING=LISTWISE.
+GRAPH
+  /SCATTERPLOT(BIVAR)=day_passed WITH soci
+  /MISSING=LISTWISE.
+GRAPH
+  /SCATTERPLOT(BIVAR)=day_passed WITH envi
+  /MISSING=LISTWISE.
+
+T-TEST GROUPS=cat_phy(0 1)
+  /MISSING=ANALYSIS
+  /VARIABLES=day_passed
+  /CRITERIA=CI(.95).
+
+T-TEST GROUPS=cat_psy(0 1)
+  /MISSING=ANALYSIS
+  /VARIABLES=day_passed
+  /CRITERIA=CI(.95).
+
+T-TEST GROUPS=cat_soci(0 1)
+  /MISSING=ANALYSIS
+  /VARIABLES=day_passed
+  /CRITERIA=CI(.95).
+
+T-TEST GROUPS=cat_envi(0 1)
+  /MISSING=ANALYSIS
+  /VARIABLES=day_passed
+  /CRITERIA=CI(.95).
+
+RECODE QoL3 QoL4 QoL26 (1=5) (2=4) (3=3) (4=2) (5=1).
+
+DATASET ACTIVATE DataSet1.
+COMPUTE DOM1=((sum1-7)/28)*100.
+COMPUTE DOM2=((sum1-6)/24)*100.
+COMPUTE DOM3=((sum1-3)/12)*100.
+COMPUTE DOM4=((sum1-8)/32)*100.
+EXECUTE. 
+
+
+DATASET ACTIVATE DataSet1.
+COMPUTE sum1=SUM(QoL3,QoL4,QoL10,QoL15,QoL16,QoL17,QoL18).
+COMPUTE sum2=SUM(QoL5,QoL6,QoL7,QoL11,QoL19,QoL26).
+COMPUTE sum3=SUM(QoL20,QoL21,QoL22).
+COMPUTE sum4=SUM(QoL8,QoL9,QoL12,QoL13,QoL14,QoL23,QoL24,QoL25).
+EXECUTE. 
+
+DESCRIPTIVES VARIABLES=DOM1 DOM2 DOM3 DOM4
+  /STATISTICS=MEAN STDDEV MIN MAX.
+
+MEANS TABLES=DOM1 DOM2 DOM3 DOM4 BY Gender
+  /CELLS=MEAN STDDEV MIN MAX.
+
+DATASET ACTIVATE DataSet1.
+RECODE QoL3 QoL4 QoL26 (1=5) (2=4) (3=3) (4=3) (5=1).
+EXECUTE.
+
+COMPUTE D1=MEAN(QoL3,QoL4,QoL10,QoL15,QoL16,QoL17,QoL18)*4.
+COMPUTE D2=MEAN(QoL5,QoL6,QoL7,QoL11,QoL19,QoL26)*4.
+COMPUTE D3=MEAN(QoL20,QoL21,QoL22)*4.
+COMPUTE D4=MEAN(QoL8,QoL9,QoL12,QoL13,QoL14,QoL23,QoL24,QoL25)*4.
+EXECUTE. 
+
+DATASET ACTIVATE DataSet1.
+IF  (sum1 = 7) dom1=4.
+IF  (sum1 = 8) dom1=5.
+IF (sum1 = 9) dom1=5. 
+IF  (sum1 = 10) dom1=6.
+IF  (sum1 = 11) dom1=6.
+IF (sum1 = 12) dom1=7. 
+IF  (sum1 = 13) dom1=7.
+IF  (sum1 = 14) dom1=8.
+IF (sum1 = 15) dom1=9. 
+IF  (sum1 = 16) dom1=9.
+IF  (sum1 = 17) dom1=10.
+IF (sum1 = 18) dom1=10. 
+IF  (sum1 = 19) dom1=11.
+IF  (sum1 = 20) dom1=11.
+IF (sum1 = 21) dom1=12. 
+IF  (sum1 = 22) dom1=13.
+IF  (sum1 = 23) dom1=13.
+IF (sum1 = 24) dom1=14. 
+IF  (sum1 = 25) dom1=14.
+IF  (sum1 = 26) dom1=15.
+IF (sum1 = 27) dom1=15. 
+IF  (sum1 = 28) dom1=16.
+IF  (sum1 = 29) dom1=17.
+IF (sum1 = 30) dom1=17. 
+IF  (sum1 = 31) dom1=18.
+IF  (sum1 = 32) dom1=18.
+IF (sum1 = 33) dom1=19. 
+IF  (sum1 = 34) dom1=19.
+IF  (sum1 = 35) dom1=20.
+EXECUTE.
+
+

@@ -1,0 +1,78 @@
+﻿* Encoding: UTF-8.
+
+DATASET ACTIVATE DataSet1.
+RECODE Inducible_ischaemia (1=1) (2=0) INTO imi.
+EXECUTE.
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER age sex fhcad htn dm dyslipid smoking BMI_group 
+  /CONTRAST (sex)=Indicator
+  /CONTRAST (fhcad)=Indicator(1)
+  /CONTRAST (htn)=Indicator(1)
+  /CONTRAST (dm)=Indicator(1)
+  /CONTRAST (dyslipid)=Indicator(1)
+  /CONTRAST (smoking)=Indicator(1)
+  /CONTRAST (BMI_group)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=FSTEP(LR) age sex fhcad htn dm dyslipid smoking BMI_group 
+  /CONTRAST (sex)=Indicator
+  /CONTRAST (fhcad)=Indicator(1)
+  /CONTRAST (htn)=Indicator(1)
+  /CONTRAST (dm)=Indicator(1)
+  /CONTRAST (dyslipid)=Indicator(1)
+  /CONTRAST (smoking)=Indicator(1)
+  /CONTRAST (BMI_group)=Indicator(1)
+  /SAVE=COOK
+  /CLASSPLOT
+  /PRINT=GOODFIT CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER age 
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER sex
+  /CONTRAST (sex)=Indicator 
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER fhcad
+  /CONTRAST (fhcad)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER htn
+  /CONTRAST (htn)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER dm
+  /CONTRAST (dm)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER dyslipid
+  /CONTRAST (dyslipid)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER smoking
+  /CONTRAST (smoking)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
+
+LOGISTIC REGRESSION VARIABLES imi
+  /METHOD=ENTER BMI_group
+  /CONTRAST (BMI_group)=Indicator(1)
+  /PRINT=CI(95)
+  /CRITERIA=PIN(0.05) POUT(0.10) ITERATE(20) CUT(0.5).
